@@ -61,7 +61,7 @@ let xhr = new XMLHttpRequest();
     const nama = localStorage.getItem("username");
     const jabatan = "Site Manager of Administratif";
     const tanggal = now.getDate()+String(new Date().getMonth() + 1).padStart(2,'0')+now.getFullYear();
-    const tampilanBulan = now.getDate() + bulan + now.getFullYear();
+    const tampilanBulan = now.getDate() + " " + bulan + " " + now.getFullYear();
 
     // PREVIEW
     document.getElementById("preview").src = imageUrl;
