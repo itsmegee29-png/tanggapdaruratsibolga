@@ -62,7 +62,7 @@ body{
 <body>
 
 <nav class="navbar">
-   <div class="logo">Apk Kehadiran Kerja </div><br>
+   <div class="logo">Daftar Belum Hadir Hari Ini </div><br>
   
    <div class="profile-menu">
       <img src="https://res.cloudinary.com/deybh6pja/image/upload/v1773302450/project_helmet_architect_constructor_builder_icon_255747.png" class="profile-img" onclick="toggleMenu()">
@@ -157,12 +157,15 @@ setInterval(waktuIndonesia,1000);
  <div id="jam"></div>
 <a href="data.html" style="font-size:14px; color:red;">| Belum Hadir |</a>  <a href="hadir.html" style="font-size:14px; color:blue;">| Hadir |</a>
 <div class="table-container">
+   <input type="text" id="searchInput" placeholder="Cari nama.." 
+style="margin-bottom:10px; padding:8px; width:100%; max-width:200px;">  
 <table>
 
 <thead>
 <tr>
+<th style="text-align:center; vertical-align:middle;" >No.</th>
 <th style="text-align:center; vertical-align:middle;">Nama</th>
-<th>Jabatan</th>
+<th style="text-align:center; vertical-align:middle;">Jabatan</th>
 
 </tr>
 </thead>
@@ -176,14 +179,14 @@ import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10
   
   // Your web app's Firebase configuration
             const firebaseConfig = {
-                apiKey: "AIzaSyBnQl8uR6Dhb95-V2jJjqqaVE96lewT9RU",
-                authDomain: "absen-periode-4-maret-2026.firebaseapp.com",
-                databaseURL: "https://absen-periode-4-maret-2026-default-rtdb.firebaseio.com",
-                projectId: "absen-periode-4-maret-2026",
-                storageBucket: "absen-periode-4-maret-2026.firebasestorage.app",
-                messagingSenderId: "853195810700",
-                appId: "1:853195810700:web:44987fa2984bcf05b218a9",
-                measurementId: "G-YKCEB5DEPK"
+              apiKey: "AIzaSyC0D0j5H_er4TYdRdQj7xqCiTCSas30YY0",
+            authDomain: "backuptransksi.firebaseapp.com",
+            databaseURL: "https://backuptransksi-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "backuptransksi",
+            storageBucket: "backuptransksi.firebasestorage.app",
+            messagingSenderId: "205255091131",
+            appId: "1:205255091131:web:05bb8036f0d93cbf621a9e",
+            measurementId: "G-QFJDCS967X"
             };
 
 
@@ -194,24 +197,51 @@ const pukul = "pkl. ";
 const wib = " .wib";
 const tanggal = now.getDate()+String(new Date().getMonth() + 1).padStart(2,'0')+now.getFullYear();
 
+document.getElementById("searchInput").addEventListener("keyup", function() {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#isiData tr");
+
+    rows.forEach(function(row) {
+        let text = row.innerText.toLowerCase();
+        if (text.includes(filter)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+});
+
+
 const dbRef = ref(db, "belumhadir/"+tanggal);
 
 onValue(dbRef, (snapshot) => {
 
     const data = snapshot.val();
     let html = "";
+    let no = 1;
+
+    if (!data) {
+        html = `
+        <tr>
+            <td colspan="4" style="text-align:center; padding:10px;">
+                Data Belum Tersedia !
+            </td>
+        </tr>
+        `;
+    } else {
 
     for (let key in data){
 
         html += `
         <tr>
-        <td style='text-align:center; vertical-align:middle;'>${data[key].nama.replace(/"/g, '')}</td>
-       <td style='text-align:center; vertical-align:middle;'>${data[key].jabatan.replace(/"/g, '')}</td>
+         <td style="text-align:center;">${no}</td>
+        <td >${data[key].username}</td>
+       <td >${data[key].jabatan}</td>
         </tr>
         `;
-
+      no++;
     }
-
+   }
     document.getElementById("isiData").innerHTML = html;
 
 });

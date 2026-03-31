@@ -1,12 +1,12 @@
 const firebaseConfig = {
-             apiKey: "AIzaSyBnQl8uR6Dhb95-V2jJjqqaVE96lewT9RU",
-                authDomain: "absen-periode-4-maret-2026.firebaseapp.com",
-                databaseURL: "https://absen-periode-4-maret-2026-default-rtdb.firebaseio.com",
-                projectId: "absen-periode-4-maret-2026",
-                storageBucket: "absen-periode-4-maret-2026.firebasestorage.app",
-                messagingSenderId: "853195810700",
-                appId: "1:853195810700:web:44987fa2984bcf05b218a9",
-                measurementId: "G-YKCEB5DEPK"
+           apiKey: "AIzaSyC0D0j5H_er4TYdRdQj7xqCiTCSas30YY0",
+            authDomain: "backuptransksi.firebaseapp.com",
+            databaseURL: "https://backuptransksi-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "backuptransksi",
+            storageBucket: "backuptransksi.firebasestorage.app",
+            messagingSenderId: "205255091131",
+            appId: "1:205255091131:web:05bb8036f0d93cbf621a9e",
+            measurementId: "G-QFJDCS967X"
             };
 
 firebase.initializeApp(firebaseConfig);
@@ -46,6 +46,19 @@ let xhr = new XMLHttpRequest();
     method: "POST",
     body: formData
   })
+
+
+
+
+
+
+
+
+
+
+
+
+  
   .then(res => res.json())
   .then(data => {
 
@@ -55,7 +68,8 @@ let xhr = new XMLHttpRequest();
     "Juli","Agustus","September","Oktober","November","Desember"
     ];
     
-    const imageUrl = data.secure_url;
+    const imageUrl2 = data.secure_url;
+    const imageUrl = imageUrl2 + "?v=" + Date.now();
     const now = new Date();
     const bulan = namabulan[now.getMonth()];
     const nama = localStorage.getItem("username");
@@ -65,7 +79,7 @@ let xhr = new XMLHttpRequest();
 
     // PREVIEW
     document.getElementById("preview").src = imageUrl;
-    document.getElementById("urlText").textContent = data.secure_url;
+    document.getElementById("urlText").textContent = imageUrl;
 
     if(!file){ 
       alert("Photo Selfie Masih Kosong !!,silahkan Ambil Photo Selfie.."); 
@@ -75,7 +89,7 @@ let xhr = new XMLHttpRequest();
     firebase.database().ref("absen/"+tanggal).push({
        photo: imageUrl,
         waktu: now.getHours() + ":" + String(new Date().getMinutes()).padStart(2, '0') + ":" + now.getSeconds(),
-        date: now.getDate()+String(new Date().getMonth() + 1).padStart(2,'0')+now.getFullYear(),
+        date: tampilanBulan,
         nama : nama
      
     });
@@ -92,7 +106,9 @@ let xhr = new XMLHttpRequest();
     alert("Photo Berhasil di Upload !!");
    
     document.getElementById("btnupload").style.display = "none";
-
+    setTimeout(function(){
+    location.reload();
+    },2000);
 
   });
 
