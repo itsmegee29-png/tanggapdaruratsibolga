@@ -1,191 +1,67 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Modern</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body{
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background: url('https://res.cloudinary.com/deybh6pja/image/upload/v1773465393/Sibolga_Pulau_Sumtera.png') no-repeat center;
-    background-size:cover;
-}
-
-/* efek blur background */
-.overlay{
-    position:absolute;
-    width:100%;
-    height:100%;
-    backdrop-filter: blur(6px);
-    background: rgba(0,0,0,0.3);
-}
-
-/* card login */
-.login-container{
-    position:relative;
-    z-index:2;
-    width:90%;
-    max-width:350px;
-}
-
-.login-box{
-    background: rgba(255,255,255,0.15);
-    border-radius:16px;
-    padding:30px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-    color:white;
-    text-align:center;
-    animation: fadeIn 0.8s ease;
-}
-
-.login-box h2{
-    margin-bottom:20px;
-}
-
-/* input modern */
-.input-group{
-    position:relative;
-    margin:15px 0;
-}
-
-.input-group input{
-    width:100%;
-    padding:12px;
-    border:none;
-    outline:none;
-    border-radius:8px;
-    background: rgba(255,255,255,0.2);
-    color:white;
-    font-size:14px;
-}
-
-.input-group input::placeholder{
-    color:#ddd;
-}
-
-/* button */
-.btn-login{
-    width:100%;
-    padding:12px;
-    margin-top:15px;
-    border:none;
-    border-radius:8px;
-    background: linear-gradient(135deg,#00AAFF,#007BFF);
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.btn-login:hover{
-    transform:scale(1.05);
-    background: linear-gradient(135deg,#008ecc,#0056cc);
-}
-
-/* animasi */
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(20px);
+  <meta charset="UTF-8">
+  <title>Maintenance</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
     }
-    to{
-        opacity:1;
-        transform:translateY(0);
+    .container {
+      max-width: 500px;
     }
-}
-
-/* responsive kecil */
-@media(max-width:400px){
-    .login-box{
-        padding:20px;
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
     }
-}
-</style>
+    p {
+      opacity: 0.8;
+    }
+    #countdown {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      color: #00ffcc;
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="overlay"></div>
-
-<div class="login-container">
-    <div class="login-box">
-       <div style="display:flex; align-items:center; justify-content:center; gap:19px; text-align:center;">
-            <img src="https://e7.pngegg.com/pngimages/6/467/png-clipart-indonesia-pt-wijaya-karya-beton-tbk-business-architectural-engineering-business-blue-text.png" 
-                alt="Logo" 
-                style="width:50px; height:auto;">
-            
-            <h2 style="margin:0;">Login</h2>
-        </div>
-
-        <div class="input-group">
-            <input type="text" id="username" placeholder="Username" required>
-        </div>
-
-        <div class="input-group">
-            <input type="password" id="password" placeholder="Password" required>
-        </div>
-
-        <button onclick="login()" class="btn-login">Login</button>
-    </div>
+<div class="container">
+  <h1>🚧 Website Sedang Maintenance</h1>
+  <p>Kami sedang melakukan perbaikan. Silakan kembali lagi nanti.</p>
+  <div id="countdown"></div>
 </div>
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
 <script>
-const firebaseConfig = {
-    apiKey: "AIzaSyC0D0j5H_er4TYdRdQj7xqCiTCSas30YY0",
-    authDomain: "backuptransksi.firebaseapp.com",
-    databaseURL: "https://backuptransksi-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "backuptransksi",
-};
+  // Waktu selesai maintenance (ubah sesuai kebutuhan)
+  const endTime = new Date();
+  endTime.setMinutes(endTime.getMinutes() + 30);
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+  function updateCountdown() {
+    const now = new Date();
+    const diff = endTime - now;
 
-function login() {
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
-
-    if(!username || !password){
-        alert("Harap isi semua field!");
-        return;
+    if (diff <= 0) {
+      document.getElementById("countdown").innerHTML = "Maintenance selesai!";
+      return;
     }
 
-    db.ref("users").once("value", function(snapshot) {
+    const minutes = Math.floor(diff / 1000 / 60);
+    const seconds = Math.floor((diff / 1000) % 60);
 
-        let loginBerhasil = false;
+    document.getElementById("countdown").innerHTML =
+      `Perkiraan selesai dalam ${minutes} menit ${seconds} detik`;
+  }
 
-        snapshot.forEach(function(child) {
-            const data = child.val();
-
-            if(data.username === username && data.password === password){
-                loginBerhasil = true;
-            }
-        });
-
-        if(loginBerhasil){
-            localStorage.setItem("username", username);
-            window.location.href = "akses.html";
-        }else{
-            alert("Username atau Password salah!");
-        }
-
-    });
-}
+  setInterval(updateCountdown, 1000);
 </script>
 
 </body>
